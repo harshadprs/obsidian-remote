@@ -17,6 +17,9 @@ RUN echo "**** install packages ****" && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
 # Download and install Obsidian
+# AppImages are self-extracting archives containing a squashfs filesystem.
+# When cross-building, we can't execute the binary, so we extract manually
+# by finding the squashfs magic bytes ('hsqs') and using unsquashfs.
 ARG TARGETARCH
 ARG FLAG=${TARGETARCH#amd64}
 RUN echo "**** download obsidian ****" && \
@@ -26,6 +29,7 @@ RUN echo "**** download obsidian ****" && \
     (./obsidian.AppImage --appimage-extract || \
      (echo "Extracting AppImage manually..." && \
       offset=$(LC_ALL=C grep -aob 'hsqs' ./obsidian.AppImage | tail -1 | cut -d: -f1) && \
+      test -n "$offset" && \
       tail -c +$((offset + 1)) ./obsidian.AppImage > obsidian.squashfs && \
       unsquashfs -d squashfs-root obsidian.squashfs && \
       rm obsidian.squashfs)) && \
