@@ -18,6 +18,7 @@ if [ ! -f "/config/ssl/cert.pem" ]; then
   chown -R abc:abc /config/ssl
 fi
 
+mkdir -p /etc/nginx/http.d
 cp /defaults/default.conf ${NGINX_CONFIG}
 sed -i "s/3000/$CPORT/g" ${NGINX_CONFIG}
 sed -i "s/3001/$CHPORT/g" ${NGINX_CONFIG}
