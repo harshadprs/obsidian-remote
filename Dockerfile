@@ -14,14 +14,17 @@ ARG TARGETARCH
 RUN echo "**** install packages ****" && \
     apt-get update && \
     apt-get install -y --no-install-recommends curl libnss3 zlib1g-dev dbus-x11 uuid-runtime \
-    libfuse2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-0 wget && \
-    echo "**** upgrade kasmvnc to 1.4.0 ****" && \
+    libfuse2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-0 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+# Pre-downloaded KasmVNC 1.4.0 .deb (includes race condition fix for lastActiveAt crash)
+COPY deb/ /tmp/debs/
+
+RUN echo "**** upgrade kasmvnc to 1.4.0 ****" && \
     KASMVNC_ARCH="amd64" && \
     if [ "$TARGETARCH" = "arm64" ]; then KASMVNC_ARCH="arm64"; fi && \
-    python3 -c "import urllib.request; u='https://github.com/kasmtech/KasmVNC/releases/download/v1.4.0/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb'; print('Downloading KasmVNC 1.4.0'); urllib.request.urlretrieve(u, '/tmp/kasmvnc.deb')" && \
-    dpkg -i /tmp/kasmvnc.deb && \
-    rm -f /tmp/kasmvnc.deb && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+    dpkg -i "/tmp/debs/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb" && \
+    rm -rf /tmp/debs
 
 # Download and install Obsidian
 ARG TARGETARCH
