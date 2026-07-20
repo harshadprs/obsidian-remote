@@ -18,12 +18,7 @@ RUN echo "**** install packages ****" && \
     echo "**** upgrade kasmvnc to 1.4.0 ****" && \
     KASMVNC_ARCH="amd64" && \
     if [ "$TARGETARCH" = "arm64" ]; then KASMVNC_ARCH="arm64"; fi && \
-    python3 -c "
-import urllib.request, sys
-url = 'https://github.com/kasmtech/KasmVNC/releases/download/v1.4.0/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb'
-print('Downloading KasmVNC 1.4.0 from:', url)
-urllib.request.urlretrieve(url, '/tmp/kasmvnc.deb')
-" && \
+    python3 -c "import urllib.request; u='https://github.com/kasmtech/KasmVNC/releases/download/v1.4.0/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb'; print('Downloading KasmVNC 1.4.0'); urllib.request.urlretrieve(u, '/tmp/kasmvnc.deb')" && \
     dpkg -i /tmp/kasmvnc.deb && \
     rm -f /tmp/kasmvnc.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
