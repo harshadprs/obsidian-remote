@@ -14,8 +14,10 @@ ARG TARGETARCH
 RUN echo "**** install packages ****" && \
     apt-get update && \
     apt-get install -y --no-install-recommends curl libnss3 zlib1g-dev dbus-x11 uuid-runtime \
-    libfuse2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-0 && \
+    libfuse2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-0 python3-pip && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+
+RUN pip3 install websockify --break-system-packages
 
 # Pre-downloaded KasmVNC 1.4.0 .deb (includes race condition fix for lastActiveAt crash)
 COPY deb/ /tmp/debs/

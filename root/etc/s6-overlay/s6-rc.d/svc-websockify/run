@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bash
+
+echo "[svc-websockify] Starting websockify proxy on 6902 -> localhost:5901"
+
+exec s6-setuidgid abc \
+  websockify 6902 127.0.0.1:5901
