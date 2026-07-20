@@ -26,7 +26,7 @@ RUN echo "**** upgrade kasmvnc to 1.4.0 ****" && \
     dpkg -i --force-confdef --force-confold "/tmp/debs/kasmvncserver_bookworm_1.4.0_${KASMVNC_ARCH}.deb" && \
     rm -rf /tmp/debs && \
     echo "**** verify kasmvnc version ****" && \
-    Xvnc --version 2>&1
+    dpkg-query -W -f='${Version}\n' kasmvncserver
 
 # Download and install Obsidian
 ARG TARGETARCH
