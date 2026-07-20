@@ -25,8 +25,10 @@ RUN echo "**** upgrade kasmvnc to 1.4.0 ****" && \
     if [ "$TARGETARCH" = "arm64" ]; then KASMVNC_ARCH="arm64"; fi && \
     dpkg -i --force-confdef --force-confold "/tmp/debs/kasmvncserver_bookworm_1.4.0_${KASMVNC_ARCH}.deb" && \
     rm -rf /tmp/debs && \
-    echo "**** verify kasmvnc version ****" && \
-    dpkg-query -W -f='${Version}\n' kasmvncserver
+    echo "**** verify kasmvnc version (dpkg) ****" && \
+    dpkg-query -W -f='${Version}\n' kasmvncserver && \
+    echo "**** copy 1.4.0 binary to baseimage path (/usr/local/bin/Xvnc) ****" && \
+    cp /usr/bin/Xkasmvnc /usr/local/bin/Xvnc
 
 # Download and install Obsidian
 ARG TARGETARCH
