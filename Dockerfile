@@ -14,6 +14,13 @@ RUN echo "**** install packages ****" && \
     apt-get update && \
     apt-get install -y --no-install-recommends curl libnss3 zlib1g-dev dbus-x11 uuid-runtime \
     libfuse2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libgtk-3-0 && \
+    echo "**** upgrade kasmvnc to 1.4.0 ****" && \
+    KASMVNC_ARCH="amd64" && \
+    if [ "$TARGETARCH" = "arm64" ]; then KASMVNC_ARCH="arm64"; fi && \
+    curl -L -o /tmp/kasmvnc.deb \
+        "https://github.com/kasmtech/KasmVNC/releases/download/v1.4.0/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb" && \
+    dpkg -i /tmp/kasmvnc.deb || apt-get install -f -y && \
+    rm -f /tmp/kasmvnc.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
 # Download and install Obsidian
