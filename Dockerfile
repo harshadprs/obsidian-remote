@@ -23,7 +23,7 @@ COPY deb/ /tmp/debs/
 RUN echo "**** upgrade kasmvnc to 1.4.0 ****" && \
     KASMVNC_ARCH="amd64" && \
     if [ "$TARGETARCH" = "arm64" ]; then KASMVNC_ARCH="arm64"; fi && \
-    dpkg -i "/tmp/debs/kasmvncserver_bookworm_${KASMVNC_ARCH}.deb" && \
+    dpkg -i "/tmp/debs/kasmvncserver_bookworm_1.4.0_${KASMVNC_ARCH}.deb" && \
     rm -rf /tmp/debs
 
 # Download and install Obsidian
