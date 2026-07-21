@@ -21,7 +21,6 @@ exec s6-setuidgid abc \
     -geometry 1024x768 \
     -sslOnly 0 \
     -RectThreads 0 \
-    -rfbport 5901 \
     -websocketPort 6901 \
     -interface 0.0.0.0 \
     -Log *:stdout:10
