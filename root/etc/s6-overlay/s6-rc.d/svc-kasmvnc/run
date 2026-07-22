@@ -19,6 +19,7 @@ exec s6-setuidgid abc \
     -SecurityTypes None \
     -AlwaysShared \
     -geometry 1024x768 \
+    -httpPort 6900 \
     -sslOnly 0 \
     -RectThreads 0 \
     -websocketPort 6901 \
