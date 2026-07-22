@@ -52,6 +52,9 @@ ENV CUSTOM_PORT="8080" \
 # Add local files
 COPY root/ /
 
+# Debug: show nginx config paths and validate our config
+RUN echo "=== NGINX CONFIG ===" && cat /etc/nginx/nginx.conf && echo "=== CONF.D FILES ===" && ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "conf.d missing" && echo "=== HTTP.D FILES ===" && ls -la /etc/nginx/http.d/ 2>/dev/null || echo "http.d missing"
+
 # Expose ports and volumes
 EXPOSE 8080 8443
 VOLUME ["/config","/vaults"]

@@ -1,6 +1,7 @@
 #!/usr/bin/with-contenv bash
 
-NGINX_CONFIG=/etc/nginx/http.d/default.conf
+mkdir -p /etc/nginx/conf.d
+NGINX_CONFIG=/etc/nginx/conf.d/obsidian-remote.conf
 
 CPORT="${CUSTOM_PORT:-3000}"
 CHPORT="${CUSTOM_HTTPS_PORT:-3001}"
