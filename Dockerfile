@@ -52,8 +52,17 @@ ENV CUSTOM_PORT="8080" \
 # Add local files
 COPY root/ /
 
-# Debug: show nginx config paths and validate our config
-RUN echo "=== NGINX CONFIG ===" && cat /etc/nginx/nginx.conf && echo "=== CONF.D FILES ===" && ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "conf.d missing" && echo "=== HTTP.D FILES ===" && ls -la /etc/nginx/http.d/ 2>/dev/null || echo "http.d missing"
+# Write config directly into image + dump nginx.conf to show include paths
+RUN cp /defaults/default.conf /etc/nginx/conf.d/default.conf && \
+    sed -i 's/3000/8080/g; s/3001/8443/g' /etc/nginx/conf.d/default.conf && \
+    echo "=== NGINX.CONF ===" && \
+    grep -n 'include\|conf\.d\|http\.d\|sites' /etc/nginx/nginx.conf && \
+    echo "=== CONF.D BEFORE ===" && \
+    ls -la /etc/nginx/conf.d/ 2>/dev/null || echo "MISSING" && \
+    echo "=== HTTP.D ===" && \
+    ls -la /etc/nginx/http.d/ 2>/dev/null || echo "MISSING" && \
+    echo "=== SITES-ENABLED ===" && \
+    ls -la /etc/nginx/sites-enabled/ 2>/dev/null || echo "MISSING"
 
 # Expose ports and volumes
 EXPOSE 8080 8443
