@@ -49,9 +49,6 @@ ENV CUSTOM_PORT="8080" \
     TITLE="Obsidian v$OBSIDIAN_VERSION" \
     FM_HOME="/vaults"
 
-# Ensure NGINX config is loaded (Debian nginx package may not create sites-enabled symlink)
-RUN mkdir -p /etc/nginx/sites-enabled && ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
 # Add local files
 COPY root/ /
 
